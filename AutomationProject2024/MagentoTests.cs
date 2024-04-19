@@ -16,7 +16,7 @@ namespace AutomationProject2024
     [TestClass]
     public class MagentoTests
     {
-        private ChromeDriver driver = new ChromeDriver();
+        private ChromeDriver driver;
         private CookieConsent cookieConsent;
         private MenuItemsBeforeSignIn menuItemsBeforeSignIn;
         private LoginPage loginPage;
@@ -26,11 +26,14 @@ namespace AutomationProject2024
         public void Setup()
         {
             ChromeOptions options = new ChromeOptions();
+            driver= new ChromeDriver(options);
             driver.Manage().Window.Maximize();
             driver.Navigate().GoToUrl("https://magento.softwaretestingboard.com/");
+            
+            cookieConsent = new CookieConsent(driver);
             loginPage = new LoginPage(driver);
             menuItemsBeforeSignIn = new MenuItemsBeforeSignIn(driver);
-            cookieConsent = new CookieConsent(driver);
+    
             cookieConsent.GoToMenuAfterCookieAccept();
         }
 
@@ -41,9 +44,9 @@ namespace AutomationProject2024
 
             loginPage.SignInAccount(Resources.email, Resources.password);
 
-            // Console.WriteLine("You are logged in on:" + driver.Url);
             homePage = new HomePage(driver);
 
+            //Wait for page to load
             Thread.Sleep(2000);
 
             Assert.IsTrue(homePage.GetWelcomeText().Contains(Resources.welcomeMessage), ValidationText.UnknownText);
@@ -59,9 +62,9 @@ namespace AutomationProject2024
             //fill Create an Account form 
             driver.FindElement(By.Id("firstname")).SendKeys("Name");
             driver.FindElement(By.Id("lastname")).SendKeys("LastName");
-            driver.FindElement(By.Id("email_address")).SendKeys("YourCredential@yahoo.com");
-            driver.FindElement(By.Id("password")).SendKeys("YourPassword");
-            driver.FindElement(By.Id("password-confirmation")).SendKeys("YourPassword");
+            driver.FindElement(By.Id("email_address")).SendKeys(Resources.email);
+            driver.FindElement(By.Id("password")).SendKeys(Resources.password);
+            driver.FindElement(By.Id("password-confirmation")).SendKeys(Resources.password);
 
             //click on create account button
             driver.FindElement(By.XPath("//button[@title='Create an Account']")).Click();

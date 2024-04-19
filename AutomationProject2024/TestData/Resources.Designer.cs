@@ -61,7 +61,7 @@ namespace AutomationProject2024.TestData {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to personalEmail.
+        ///   Looks up a localized string similar to testUser@yahoo.com.
         /// </summary>
         internal static string email {
             get {
@@ -70,7 +70,7 @@ namespace AutomationProject2024.TestData {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Automation.2024.
+        ///   Looks up a localized string similar to MagentoTests2024!.
         /// </summary>
         internal static string password {
             get {

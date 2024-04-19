@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="email" xml:space="preserve">
-    <value>personalEmail</value>
+    <value>testUser@yahoo.com</value>
   </data>
   <data name="password" xml:space="preserve">
-    <value>Automation.2024</value>
+    <value>MagentoTests2024!</value>
   </data>
   <data name="welcomeMessage" xml:space="preserve">
     <value>Welcome</value>
