@@ -81,6 +81,25 @@ namespace AutomationProject2024
             Assert.IsTrue(validationMessage.Contains(expectedMessage));
         }
 
+        [TestMethod]
+        public void ShouldGoToProductDetails()
+        {
+            menuItemsBeforeSignIn.GoToWatchesPage();
+
+            WatchesPage watchesPage = new WatchesPage(driver);
+
+            Assert.IsTrue(watchesPage.GetPageTitle().Equals(Resources.watchesPageTitle),ValidationText.UnknownText);
+
+            watchesPage.GoToProductDetails(1);
+
+          //  var detailsPageTitle= watchesPage.GetProductName(1);
+
+            ProductDetails productDetails = new ProductDetails(driver);
+
+        //    Assert.IsTrue(productDetails.GetPageTitle().Equals(detailsPageTitle), ValidationText.UnknownText);
+
+
+        }
 
         [TestCleanup]
         public void CloseBrowser()

@@ -123,6 +123,9 @@
   <data name="password" xml:space="preserve">
     <value>MagentoTests2024!</value>
   </data>
+  <data name="watchesPageTitle" xml:space="preserve">
+    <value>Watches</value>
+  </data>
   <data name="welcomeMessage" xml:space="preserve">
     <value>Welcome</value>
   </data>

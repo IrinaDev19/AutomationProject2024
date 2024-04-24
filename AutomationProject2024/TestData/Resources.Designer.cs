@@ -79,6 +79,15 @@ namespace AutomationProject2024.TestData {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Watches.
+        /// </summary>
+        internal static string watchesPageTitle {
+            get {
+                return ResourceManager.GetString("watchesPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Welcome.
         /// </summary>
         internal static string welcomeMessage {
