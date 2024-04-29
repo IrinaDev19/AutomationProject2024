@@ -212,8 +212,8 @@ public class LoginPage
         }
     }
 ```
-   
-    Now, we will continue working with the menu. It is present in all the app pages, and we need to create a single base class where the menu elements can be stored. This is a shared component and we need to call it in all of our page objects. Ww will create a class MenuItem.cs. This class will contain all menu elements.
+
+Now, we will continue working with the menu. It is present in all the app pages, and we need to create a single base class where the menu elements can be stored. This is a shared component and we need to call it in all of our page objects. Ww will create a class MenuItem.cs. This class will contain all menu elements.
 
 
  ```csharp
@@ -234,7 +234,7 @@ logged out: Sign in, Create an Account
 logged in: Sign out, My Account, My Wish List
 For the moment we will create another class that will handle the context when a user is logged in: MenuItemBeforeSignIn that will inherit the MenuItem class.
 
- ```csharp
+```csharp
    public class MenuItemBeforeSignIn : MenuItem
     {
         IWebDriver driver;
@@ -253,7 +253,8 @@ For the moment we will create another class that will handle the context when a 
         }
     }
 ```
-    We will add another PageObjectModel for ConsentCookie
+
+We will add another PageObjectModel for ConsentCookie
 
 ```csharp
     public class ConsentCookiePage
@@ -273,7 +274,7 @@ For the moment we will create another class that will handle the context when a 
         }
       
     }
- ```
+```
 
 We will continue by making the changes in the LoginPage.cs and LoginTests.cs:
 
@@ -349,20 +350,22 @@ The final look for TestClass will be:
             driver.Quit();
         }
 ```
+In the following we will create a resource page (Resource.resx) for used texts and for validation messages. To create this page go to AddNewItem and check for resources files type.
+Add the following resources:
+   Name  | Value
+------------- | -------------
+LoginPageTitle  |test.user@yahoo.com
+Password	   | MagentoTests2024!  
+StartPageTitle| Welcome
+Username  |your username
+WelcomeMessage| 	Welcome
 
-        In the following we will create a resource page (Resource.resx) for used texts and for validation messages. To create this page go to AddNewItem and check for resources files type.
-        Add the following resources:
-        
-        LoginPageTitle	Customer Login
-        Password	              your password
-        StartPageTitle        	Welcome
-        Username               	your username
-        WelcomeMessage        	Welcome
+Create a new resource file for validation (ValidationText.resx) containing:
+  Name  | Value
+------------- | -------------
+UnknownText	| Text is not the same
 
-        Create a new resource file for validation (ValidationText.resx) containing:
-        UnknownText	           Text is not the same
-
-        Final test method will look like:
+Final test method will look like:
 
    ```csharp
        [TestMethod]
@@ -413,7 +416,7 @@ In order to navigate through all the pages we will consider a base class HomePag
     }
 ```
 
-    After executing **Step 4** user is redirected to a page where all watches are displayed. For this we need to create another page object WatchesPage.cs:
+   After executing **Step 4** user is redirected to a page where all watches are displayed. For this we need to create another page object WatchesPage.cs:
 
 ```csharp
     public class WatchesPage
@@ -426,7 +429,6 @@ In order to navigate through all the pages we will consider a base class HomePag
         }
     }
 ```
-
 Having the previous page object created we can update the MenuItemBeforeSingIn with the necessary elements declaration and method to hover over Gear option menu and click on Watches option from Step 4:
  
 ```csharp
@@ -434,7 +436,7 @@ Having the previous page object created we can update the MenuItemBeforeSingIn w
     {
         IWebDriver driver;
 
-        ...
+        //...
 
         IWebElement SignInLink => driver.FindElement(By.LinkText("Sign In"));
 
@@ -453,10 +455,11 @@ Having the previous page object created we can update the MenuItemBeforeSingIn w
         }
 
             public LoginPage GoToSignInPage()
-            ...
+          //  ...
     }
 ```
-    After executing **Step 5** user is redirected to a page where details for the chosen watch are displayed. For this we need to create another page object WatchDetailsPage.cs:
+
+   After executing **Step 5** user is redirected to a page where details for the chosen watch are displayed. For this we need to create another page object WatchDetailsPage.cs:
 
 ```csharp
     public class ProductDetailsPage
@@ -469,7 +472,7 @@ Having the previous page object created we can update the MenuItemBeforeSingIn w
         }
     }
 ```
-    Having the previous page object created we can update the WatchesPage.cs with the necessary elements declaration and method to click on the first watch from the list accordingly with Step 5:
+Having the previous page object created we can update the WatchesPage.cs with the necessary elements declaration and method to click on the first watch from the list accordingly with Step 5:
 
 ```csharp
        public class WatchesPage
@@ -498,7 +501,7 @@ Having the previous page object created we can update the MenuItemBeforeSingIn w
         }
     }
 ```
-     For checking if the correct details page is displayed we'll create a method in WhatchesPage to fetch product name
+For checking if the correct details page is displayed we'll create a method in WhatchesPage to fetch product name
 
 ```csharp     
       public class WatchesPage
@@ -518,8 +521,7 @@ Having the previous page object created we can update the MenuItemBeforeSingIn w
         }
     }
 ```
-
-    Now in the ProductDetails class we add a method to get Page title 
+Now in the ProductDetails class we add a method to get Page title 
 
 ```csharp
      public class ProductDetails
@@ -542,7 +544,8 @@ Having the previous page object created we can update the MenuItemBeforeSingIn w
     }
 ```
 
-    The test method will look like:
+ The test method will look like: 
+    
 ```csharp
      [TestMethod]
         public void ShouldGoToProductDetails()
@@ -561,6 +564,7 @@ Having the previous page object created we can update the MenuItemBeforeSingIn w
             Assert.IsTrue(productDetails.GetPageTitle().Equals(detailsPageTitle), ValidationText.UnknownText);
         }
 ```
+
 Don't forget to add in  in resources a new string :
 WatchesPageTitle	      Watches
   
@@ -577,10 +581,11 @@ Next, to complete **Step 7** we need to create the page object for the shopping 
         }
     }
 ```
-    Having ShoppingCartPage.cs we can update ProductDetailsPage.cs with the button declaration and method to click on the shopping cart link:
+Having ShoppingCartPage.cs we can update ProductDetailsPage.cs with the button declaration and method to click on the shopping cart link:
 
 ```csharp
-    public class WatchDetailsPage
+
+public class WatchDetailsPage
     {
         private IWebDriver driver;
 
@@ -609,11 +614,11 @@ Next, to complete **Step 7** we need to create the page object for the shopping 
         }
     }
 ```
-
-    In order to complete **Step 8** we need to create the page object of the page we will be redirected after clicking on 'Proceed to checkout' button ShippingAddressPage.cs:
+  In order to complete **Step 8** we need to create the page object of the page we will be redirected after clicking on 'Proceed to checkout' button ShippingAddressPage.cs:
 
 ```csharp
-     public class ShippingAddressPage
+
+public class ShippingAddressPage
      {
         private IWebDriver driver;
 
@@ -624,10 +629,11 @@ Next, to complete **Step 7** we need to create the page object for the shopping 
 
      }
 ```
-     
+
 Having the next page object we will be redirected after executing step 8, we can complete ShoppingCartPage.cs with the button declaration and method to click on the 'Proceed to checkout' element:
 
 ```csharp
+
   public class ShoppingCartPage
     {
         private IWebDriver driver;
@@ -649,9 +655,10 @@ Having the next page object we will be redirected after executing step 8, we can
     }
 ```
 
-    The test method will look like:
+The test method will look like:
 
-```csharp    
+```csharp
+
     [TestMethod]
         public void AddValidProductInCart()
         {
