@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using OpenQA.Selenium;
 
 namespace AutomationProject2024.PageObjectModel
@@ -26,18 +24,17 @@ namespace AutomationProject2024.PageObjectModel
             return pageTitle.Text;
         }
 
-        public ProductDetails GoToProductDetails(int indexProduct)
+        public ProductDetailsPage GoToProductDetails(int indexProduct)
         {
             productsList.ElementAt(indexProduct).Click();
          
-          //  productsList.First().Click();
-
-          //  productsList.Last().Click();
-            return new ProductDetails(driver);
+            return new ProductDetailsPage(driver);
         }
 
         public string GetProductName(int index)
         {
+            var list=productsList.Count();
+           Thread.Sleep(2000);
            return productsList.ElementAt(index).FindElement(By.ClassName("product-item-link")).Text;
         }
     }

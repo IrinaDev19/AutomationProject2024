@@ -65,7 +65,9 @@
     <Compile Include="PageObjectModel\LoginPage.cs" />
     <Compile Include="PageObjectModel\MenuItems.cs" />
     <Compile Include="PageObjectModel\MenuItemsBeforeSignIn.cs" />
-    <Compile Include="PageObjectModel\ProductDetails.cs" />
+    <Compile Include="PageObjectModel\ProductDetailsPage.cs" />
+    <Compile Include="PageObjectModel\ShippingAddressPage.cs" />
+    <Compile Include="PageObjectModel\ShoppingCartPage.cs" />
     <Compile Include="PageObjectModel\WatchesPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestData\Resources.Designer.cs">
@@ -86,6 +88,7 @@
     <EmbeddedResource Include="TestData\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="TestData\ValidationText.resx">
       <Generator>ResXFileCodeGenerator</Generator>

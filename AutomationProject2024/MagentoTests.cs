@@ -60,8 +60,8 @@ namespace AutomationProject2024
             driver.FindElement(By.LinkText("Create an Account")).Click();
 
             //fill Create an Account form 
-            driver.FindElement(By.Id("firstname")).SendKeys("Name");
-            driver.FindElement(By.Id("lastname")).SendKeys("LastName");
+            driver.FindElement(By.Id("firstname")).SendKeys("User");
+            driver.FindElement(By.Id("lastname")).SendKeys("Test");
             driver.FindElement(By.Id("email_address")).SendKeys(Resources.email);
             driver.FindElement(By.Id("password")).SendKeys(Resources.password);
             driver.FindElement(By.Id("password-confirmation")).SendKeys(Resources.password);
@@ -89,16 +89,35 @@ namespace AutomationProject2024
             WatchesPage watchesPage = new WatchesPage(driver);
 
             Assert.IsTrue(watchesPage.GetPageTitle().Equals(Resources.watchesPageTitle),ValidationText.UnknownText);
+           
+            var detailsPageTitle = watchesPage.GetProductName(0);
+            watchesPage.GoToProductDetails(0);
+            ProductDetailsPage productDetails = new ProductDetailsPage(driver);
 
+            Assert.IsTrue(productDetails.GetPageTitle().Equals(detailsPageTitle), ValidationText.UnknownText);
+        }
+
+
+        [TestMethod]
+        public void AddValidProductInCart()
+        {
+            menuItemsBeforeSignIn.GoToWatchesPage();
+            WatchesPage watchesPage;
+            watchesPage = new WatchesPage(driver);
+            ProductDetailsPage watchDetailsPage = new ProductDetailsPage(driver);
+            ShoppingCartPage shoppingCartPage;
+            shoppingCartPage = new ShoppingCartPage(driver);
+
+            var productName1 = watchesPage.GetProductName(1);
             watchesPage.GoToProductDetails(1);
 
-          //  var detailsPageTitle= watchesPage.GetProductName(1);
+            Assert.IsTrue(watchDetailsPage.GetPageTitle().Equals(productName1), "Is not equal");
 
-            ProductDetails productDetails = new ProductDetails(driver);
+            watchDetailsPage.AddProductToCart();
 
-        //    Assert.IsTrue(productDetails.GetPageTitle().Equals(detailsPageTitle), ValidationText.UnknownText);
+            watchDetailsPage.GoToShoppingCart();
 
-
+            shoppingCartPage.ProceedToCheckoutPage();
         }
 
         [TestCleanup]

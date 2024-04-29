@@ -61,7 +61,7 @@ namespace AutomationProject2024.TestData {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to testUser@yahoo.com.
+        ///   Looks up a localized string similar to test.user@yahoo.com.
         /// </summary>
         internal static string email {
             get {
