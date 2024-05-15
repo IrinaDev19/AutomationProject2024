@@ -188,11 +188,9 @@ namespace AutomationProject2024
                 .GoToShoppingCart()
                 .ProceedToCheckoutPage()
                 .FillInShippingAddressSecondMethod(address)
-            .PlaceOrder();
+                .PlaceOrder();
 
             Assert.IsTrue(navigator.getPageTitle().Equals("Thank you for your purchase!"));
-
-           
         }
 
             [TestCleanup]
