@@ -60,11 +60,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MagentoTests.cs" />
+    <Compile Include="ModelsBO\ShippingAddressModel.cs" />
+    <Compile Include="PageObjectModel\ConfirmOrder.cs" />
     <Compile Include="PageObjectModel\CookieConsent.cs" />
     <Compile Include="PageObjectModel\HomePage.cs" />
     <Compile Include="PageObjectModel\LoginPage.cs" />
     <Compile Include="PageObjectModel\MenuItems.cs" />
     <Compile Include="PageObjectModel\MenuItemsBeforeSignIn.cs" />
+    <Compile Include="PageObjectModel\PaymentMethodPage.cs" />
+    <Compile Include="PageObjectModel\PlaceOrderPage.cs" />
     <Compile Include="PageObjectModel\ProductDetailsPage.cs" />
     <Compile Include="PageObjectModel\ShippingAddressPage.cs" />
     <Compile Include="PageObjectModel\ShoppingCartPage.cs" />

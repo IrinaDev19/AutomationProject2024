@@ -1,10 +1,12 @@
-﻿using AutomationProject2024.PageObjectModel;
+﻿using AutomationProject2024.ModelsBO;
+using AutomationProject2024.PageObjectModel;
 using AutomationProject2024.TestData;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 /*  to have these namespaces you need to add in solution 
 from ManageNuGet Packages the following:
 Selenium.Webdriver
@@ -34,7 +36,7 @@ namespace AutomationProject2024
             loginPage = new LoginPage(driver);
             menuItemsBeforeSignIn = new MenuItemsBeforeSignIn(driver);
     
-            cookieConsent.GoToMenuAfterCookieAccept();
+        //    cookieConsent.GoToMenuAfterCookieAccept();
         }
 
         [TestMethod]
@@ -120,7 +122,80 @@ namespace AutomationProject2024
             shoppingCartPage.ProceedToCheckoutPage();
         }
 
-        [TestCleanup]
+        [TestMethod]
+        public void CompletePurchase_UserNotLoggedIn()
+        {
+            menuItemsBeforeSignIn.GoToWatchesPage();
+            WatchesPage watchesPage;
+            watchesPage = new WatchesPage(driver);
+            ProductDetailsPage watchDetailsPage = new ProductDetailsPage(driver);
+            ShoppingCartPage shoppingCartPage;
+            shoppingCartPage = new ShoppingCartPage(driver);
+            ShippingAddressPage shippingAddressPage = new ShippingAddressPage(driver);
+            PaymentMethodPage paymentMethodPage = new PaymentMethodPage(driver);
+            ConfirmOrder confirmOrder = new ConfirmOrder(driver);
+
+            // navigate to the product to be added in the cart
+            var productName1 = watchesPage.GetProductName(1);
+            watchesPage.GoToProductDetails(1);
+
+            Assert.IsTrue(watchDetailsPage.GetPageTitle().Equals(productName1), "Is not equal");
+
+            // add product in cart
+            watchDetailsPage.AddProductToCart();
+
+            // click on shopping cart
+            watchDetailsPage.GoToShoppingCart();
+
+            // click to go to checkout
+            shoppingCartPage.ProceedToCheckoutPage();
+
+            Thread.Sleep(2000);
+
+            // assert you are on the shippment page
+
+            Assert.IsTrue(shippingAddressPage.getShippingPageTitle().Equals("Shipping"), "Is not equal");
+
+            // complete shipping address fields
+            shippingAddressPage.FillInShippingAddress("test2024@yahoo.com", "John", "Doe", "str Palas", "Iasi", "Alaska", "12345", "123456789");
+
+            // assert you are on the payment method page
+            // Assert.IsTrue(paymentMethodPage.getPaymentMethodPageTitle().Equals("Payment Method"), "Is not equal");
+
+            // send order
+            paymentMethodPage.PlaceOrder();
+        }
+
+        [TestMethod]
+        public void CompletePurchase_UserNotLoggedInSecondMethod()
+        {
+            var address = new ShippingAddressModel()
+            {
+                Email = "email@email.ro",
+                FirstName = "John",
+                LastName = "Doe",
+                Street = "AC address1",
+                City = "Iasi",
+                State = "Hawaii",
+                PostalCode = "12345",
+                Phone = "1234567890",
+                ShippingMethod = 1
+            };
+
+            var navigator = menuItemsBeforeSignIn.GoToWatchesPage()
+                .GoToProductDetails(2)
+                .AddProductToCart()
+                .GoToShoppingCart()
+                .ProceedToCheckoutPage()
+                .FillInShippingAddressSecondMethod(address)
+            .PlaceOrder();
+
+            Assert.IsTrue(navigator.getPageTitle().Equals("Thank you for your purchase!"));
+
+           
+        }
+
+            [TestCleanup]
         public void CloseBrowser()
         {
             driver.Quit();

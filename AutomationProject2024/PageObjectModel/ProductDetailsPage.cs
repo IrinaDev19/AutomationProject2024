@@ -29,11 +29,11 @@ namespace AutomationProject2024.PageObjectModel
             return this;
         }
 
-        public IWebElement ShoppingCartLink => driver.FindElement(By.LinkText("shopping cart"));
+        public IWebElement ShoppingCartLink => driver.FindElement(By.XPath("//a[@class='action showcart']"));
 
         public ShoppingCartPage GoToShoppingCart()
         {
-            Thread.Sleep(2000);
+            Thread.Sleep(5000);
             ShoppingCartLink.Click();
 
             return new ShoppingCartPage(driver);

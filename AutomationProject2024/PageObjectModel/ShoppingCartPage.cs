@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using System.Threading;
+using OpenQA.Selenium;
 
 namespace AutomationProject2024.PageObjectModel
 {
@@ -11,10 +12,11 @@ namespace AutomationProject2024.PageObjectModel
             driver = browser;
         }
 
-        public IWebElement BtnProceedToCheckout => driver.FindElement(By.XPath("//button[@title='Proceed to Checkout']/span"));
+        public IWebElement BtnProceedToCheckout => driver.FindElement(By.XPath("//button[@title='Proceed to Checkout']"));
 
         public ShippingAddressPage ProceedToCheckoutPage()
         {
+            Thread.Sleep(2000);
             BtnProceedToCheckout.Click();
 
             return new ShippingAddressPage(driver);
