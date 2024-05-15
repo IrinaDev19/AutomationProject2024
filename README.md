@@ -684,7 +684,7 @@ The test method will look like:
         }
  ```
 
-### ** Session 5 - 08.05.2023 - BusinessObject. Placing an order**
+### ** Session 5 - 15.05.2024 - BusinessObject. Placing an order**
 
 **Note:** I've added description here only for the new method containing shipping address class 
 
