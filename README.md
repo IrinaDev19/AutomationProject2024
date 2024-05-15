@@ -683,3 +683,176 @@ The test method will look like:
             //remains to create the assert
         }
  ```
+
+### ** Session 5 - 08.05.2023 - BusinessObject. Placing an order**
+
+**Note:** I've added description here only for the new method containing shipping address class 
+
+**Scope**: This session's scope is to continue with the test we detailed in **Session 4**.
+
+We will continue with step 9. In order for **Step 9** to be completed, we need to declare all the mandatory fields elements including the Next button:
+```csharp
+     public class ShippingAddressPage
+    {
+        private IWebDriver driver;
+
+        public ShippingAddressPage(IWebDriver browser)
+        {
+            driver = browser;
+        }
+
+        public IWebElement EmailAddressInput => driver.FindElement(By.Id("customer-email"));
+        public IWebElement FirstNameInput => driver.FindElement(By.XPath("//input[@name = 'firstname']"));
+        public IWebElement LastNameInput => driver.FindElement(By.CssSelector("input[name = 'lastname']"));
+        public IWebElement StreetAddressInput => driver.FindElement(By.CssSelector("input[name = 'street[0]']"));
+        public IWebElement CityInput => driver.FindElement(By.CssSelector("input[name = 'city']"));
+        public IWebElement StateDropdown => driver.FindElement(By.CssSelector("select[name = 'region_id']"));
+        public IWebElement ZipCodeInput => driver.FindElement(By.CssSelector("input[name = 'postcode']"));
+        public IWebElement TelephoneInput => driver.FindElement(By.CssSelector("input[name = 'telephone']"));
+        public IList<IWebElement> ShippingMethodsOptions => driver.FindElements(By.CssSelector("input[type= 'radio']"));
+        public IWebElement BtnNext => driver.FindElement(By.CssSelector("button[class= 'button action continue primary']"));
+}
+```
+
+Before clicking on Next button and reaching to the Step 10 we will create the page object for the 2nd step of placing an order PaymentMethodPage.cs:
+```csharp
+    public class PaymentMethodPage
+    {
+        private IWebDriver driver;
+
+        public PaymentMethodPage(IWebDriver browser)
+        {
+            driver = browser;
+        }
+    }
+```
+
+Parametrize AddShippingAddress method in an efficient way
+
+To parametrize the details for adding a shipping address in an efficient way, we can create a business object class called ShippingAddressBO.cs which will contain the objects needed in the process of adding a shipping address. We will create this class in a new solution folder named InputDataBO.
+```csharp
+    public class ShippingAddressModel
+    {
+        public string Email { get; set; }
+
+        public string FirstName { get; set;}
+
+        public string LastName { get; set;}
+
+        public string Company { get; set; }
+
+        public string Street { get; set; }
+
+        public string City { get; set; }
+
+        public string State { get; set; }
+
+        public string PostalCode { get; set; }
+
+        public string Country { get; set; }
+
+        public string Phone { get; set; }
+
+        public int ShippingMethod { get; set; }
+    }
+```
+
+After this we can complete **ShippingAddressPage.cs** with the method that will fill declared elements with data from the business object and with clicking on the Next button:
+```csharp
+    public class ShippingAddressPage
+    {
+      ...
+        public PaymentMethodPage AddShippingAddress(ShippingAddressBO shippingAddress)
+        {
+            Thread.Sleep(5000);
+            EmailAddressInput.SendKeys(shippingAddress.EmailAddress);
+            FirstNameInput.SendKeys(shippingAddress.FirstName);
+            LastNameInput.SendKeys(shippingAddress.LastName);
+            StreetAddressInput.SendKeys(shippingAddress.StreetAddress);
+            CityInput.SendKeys(shippingAddress.City);
+
+            //select from dropdown
+            var selectState = new SelectElement(StateDropdown);
+            selectState.SelectByText(shippingAddress.State);
+
+            ZipCodeInput.SendKeys(shippingAddress.ZipCode);
+            TelephoneInput.SendKeys(shippingAddress.Telephone);
+
+            //select radio button value
+            ShippingMethodsOptions.ElementAt(shippingAddress.ShippingMethods).Click();
+
+            BtnNext.Click();
+
+            return new PaymentMethodPage(driver);
+        }
+    }
+```
+In order to get to the correct page object specific for Step 11 we will create PlacedOrderPage.cs:
+```csharp
+   public class PlaceOrderPage
+    {
+        public IWebDriver driver;
+
+        public PlaceOrderPage(IWebDriver browser)
+        {
+            driver = browser;
+        }
+
+        public IWebElement PageTitle => driver.FindElement(By.XPath("//h1[@class='page-title']/span"));
+   }
+```
+    
+Now we can fully complete Step 10 by clicking on the 'Place order' button in PaymentMethodPage.cs:
+```csharp
+    public class PaymentMethodPage
+    {
+        private IWebDriver driver;
+
+        public PaymentMethodPage(IWebDriver browser)
+        {
+            driver = browser;
+        }
+
+        public IWebElement BtnPlaceOrder => driver.FindElement(By.CssSelector("button[title='Place Order']"));
+
+        public PlacedOrderPage PlaceOrder()
+        {
+            Thread.Sleep(5000);
+            BtnPlaceOrder.Click();
+
+            return new PlacedOrderPage(driver);
+        }
+    }
+```
+We completed adding all page objects necessary for the test we want to perform so now we can create AddToCartTests.cs that will call the declared methods for navigating through steps:
+```csharp
+ [TestMethod]
+        public void CompletePurchase_UserNotLoggedInSecondMethod()
+        {
+            var address = new ShippingAddressModel()
+            {
+                Email = "email@email.ro",
+                FirstName = "John",
+                LastName = "Doe",
+                Street = "AC address1",
+                City = "Iasi",
+                State = "Hawaii",
+                PostalCode = "12345",
+                Phone = "1234567890",
+                ShippingMethod = 1
+            };
+
+            var navigator = menuItemsBeforeSignIn.GoToWatchesPage()
+                .GoToProductDetails(2)
+                .AddProductToCart()
+                .GoToShoppingCart()
+                .ProceedToCheckoutPage()
+                .FillInShippingAddressSecondMethod(address)
+                .PlaceOrder();
+
+            Assert.IsTrue(navigator.getPageTitle().Equals("Thank you for your purchase!"));
+        }
+```
+As you can observe the business object was instantiated with data in the test using an efficient parametrization.
+
+At the end an assert was added to check the correct message is displayed after placing an order.
